@@ -72,6 +72,9 @@ bool App::Create(HINSTANCE instance, int show_command, bool start_hidden) {
     // L'icone du tray reste presente pendant toute la vie de l'app.
     tray_.Add(hwnd_, icon_);
 
+    // Raccourci global afficher/masquer (non fatal s'il est deja pris).
+    RegisterHotKey(hwnd_, HOTKEY_TOGGLE_ID, kHotkeyModifiers, kHotkeyVk);
+
     if (start_hidden) {
         // Lancement au demarrage de Windows : on reste dans le tray, sans
         // afficher la fenetre ni la balloon de notice.
@@ -124,6 +127,13 @@ LRESULT App::WndProc(UINT msg, WPARAM wparam, LPARAM lparam) {
         return 0;
     }
 
+    case WM_HOTKEY:
+        // Raccourci global : bascule affichage/masquage.
+        if (wparam == HOTKEY_TOGGLE_ID) {
+            ToggleVisibility();
+        }
+        return 0;
+
     case WM_TRAY_CALLBACK: {
         UINT command = 0;
         if (tray_.HandleMessage(wparam, lparam, &command)) {
@@ -145,6 +155,7 @@ LRESULT App::WndProc(UINT msg, WPARAM wparam, LPARAM lparam) {
         return 0;
 
     case WM_DESTROY:
+        UnregisterHotKey(hwnd_, HOTKEY_TOGGLE_ID);
         tray_.Remove();
         PostQuitMessage(0);
         return 0;
@@ -229,7 +240,12 @@ void App::HideToTray() {
 }
 
 void App::ToggleVisibility() {
-    if (IsWindowVisible(hwnd_)) {
+    // Masque uniquement si la fenetre est deja visible ET au premier plan ;
+    // sinon on l'affiche et on la met au premier plan. Ainsi le raccourci
+    // global ramene la fenetre au lieu de la masquer quand elle est derriere.
+    const bool visible = IsWindowVisible(hwnd_) && !IsIconic(hwnd_);
+    const bool foreground = (GetForegroundWindow() == hwnd_);
+    if (visible && foreground) {
         HideToTray();
     } else {
         ShowWindow(hwnd_, SW_SHOW);

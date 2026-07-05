@@ -17,6 +17,11 @@ inline constexpr wchar_t kWebView2DownloadUrl[] =
 // Message de la zone de notification (tray).
 inline constexpr UINT WM_TRAY_CALLBACK = WM_APP + 1;
 
+// Raccourci global (afficher/masquer depuis n'importe ou) : Ctrl+Alt+G.
+inline constexpr int  HOTKEY_TOGGLE_ID  = 1;
+inline constexpr UINT kHotkeyModifiers  = MOD_CONTROL | MOD_ALT | MOD_NOREPEAT;
+inline constexpr UINT kHotkeyVk         = 'G';
+
 // Identifiants du menu contextuel du tray.
 inline constexpr UINT ID_TRAY_SHOW    = 1001;
 inline constexpr UINT ID_TRAY_QUIT    = 1002;

@@ -262,15 +262,6 @@ On startup the app calls `GetAvailableCoreWebView2BrowserVersionString`. If the 
 
 ---
 
-## Roadmap
-
-Ideas that are intentionally out of scope for now but easy to add:
-
-- Global hotkey to show/hide the window from anywhere
-- Code-signed binaries to remove the SmartScreen warning
-
----
-
 ## License
 
 Released under the [MIT License](LICENSE).

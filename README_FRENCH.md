@@ -262,15 +262,6 @@ Au démarrage, l'application appelle `GetAvailableCoreWebView2BrowserVersionStri
 
 ---
 
-## Feuille de route
-
-Des idées volontairement hors périmètre pour l'instant, mais faciles à ajouter :
-
-- Raccourci global pour afficher/masquer la fenêtre depuis n'importe où
-- Binaires signés pour supprimer l'avertissement SmartScreen
-
----
-
 ## Licence
 
 Distribué sous [licence MIT](LICENSE).
