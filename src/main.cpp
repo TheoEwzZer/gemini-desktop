@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <objbase.h>
 #include <shellapi.h>
+#include <shlobj.h>
 #include <WebView2.h>
 #include <wil/com.h>
 
@@ -37,6 +38,11 @@ bool EnsureWebView2Runtime() {
 } // namespace
 
 int APIENTRY wWinMain(HINSTANCE instance, HINSTANCE, LPWSTR, int show_command) {
+    // 0. AppUserModelID explicite, avant toute creation de fenetre : sans lui,
+    //    Windows derive un identifiant instable et la fenetre lancee ne se
+    //    regroupe pas sous le raccourci epingle (icone en double dans la barre).
+    SetCurrentProcessExplicitAppUserModelID(kAppUserModelId);
+
     // 1. Instance unique : si deja lancee, activer l'existante et sortir.
     SingleInstance guard;
     if (guard.AlreadyRunning()) {

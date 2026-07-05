@@ -7,6 +7,10 @@ namespace gemini {
 // Identifiants partages entre les composants.
 inline constexpr wchar_t kWindowClassName[] = L"GeminiDesktopWindowClass";
 inline constexpr wchar_t kWindowTitle[]     = L"Gemini";
+// AppUserModelID explicite et stable : garantit que la fenetre lancee se
+// regroupe sous le meme bouton que le raccourci epingle dans la barre des
+// taches (sinon Windows en derive un instable et affiche une icone en double).
+inline constexpr wchar_t kAppUserModelId[]  = L"TheoEwzZer.GeminiDesktop";
 inline constexpr wchar_t kMutexName[]       = L"Global\\GeminiDesktop_SingleInstance";
 inline constexpr wchar_t kShowMessageName[] = L"GeminiDesktop_Show";
 inline constexpr wchar_t kRegistryKey[]     = L"Software\\GeminiDesktop";
