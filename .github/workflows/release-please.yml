@@ -1,0 +1,77 @@
+name: Release Please
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  # 1) Maintient la PR "Release" et, une fois mergée, crée le tag + la Release.
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.rp.outputs.release_created }}
+      tag_name: ${{ steps.rp.outputs.tag_name }}
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: rp
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  # 2) Ne s'exécute QUE lorsqu'une release vient d'être créée.
+  #    Build l'exe + l'installeur et les attache à la Release.
+  build:
+    needs: release-please
+    if: needs.release-please.outputs.release_created == 'true'
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Checkout vcpkg (pinned baseline)
+        uses: actions/checkout@v4
+        with:
+          repository: microsoft/vcpkg
+          ref: dfcb04008a5a9e038a4ae0d1af57909e30d21359
+          path: vcpkg
+
+      - name: Bootstrap vcpkg
+        run: .\vcpkg\bootstrap-vcpkg.bat -disableMetrics
+
+      - name: Set VCPKG_ROOT
+        run: echo "VCPKG_ROOT=$env:GITHUB_WORKSPACE\vcpkg" >> $env:GITHUB_ENV
+
+      - name: Version from tag
+        shell: pwsh
+        run: |
+          $v = "${{ needs.release-please.outputs.tag_name }}" -replace '^v',''
+          echo "APP_VERSION=$v" >> $env:GITHUB_ENV
+          Write-Host "Version = $v"
+
+      - name: Configure (CMake + vcpkg)
+        run: cmake --preset x64-release
+
+      - name: Build (Release)
+        run: cmake --build --preset x64-release
+
+      - name: Install Inno Setup
+        run: choco install innosetup --no-progress -y
+
+      - name: Build installer
+        run: |
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" `
+            /DMyAppVersion=$env:APP_VERSION `
+            installer\GeminiDesktop.iss
+
+      - name: Upload binaries to the release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "${{ needs.release-please.outputs.tag_name }}" `
+            build\Release\GeminiDesktop.exe `
+            installer\Output\GeminiDesktop-Setup.exe `
+            --clobber
