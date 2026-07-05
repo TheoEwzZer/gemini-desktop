@@ -13,3 +13,7 @@ vcpkg_installed/
 *.exe
 *.pdb
 *.ilk
+
+# Sortie de l'installeur Inno Setup
+installer/Output/
+dist/

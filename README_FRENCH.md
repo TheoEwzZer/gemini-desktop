@@ -42,6 +42,7 @@ _L'application en fonctionnement natif : session connectée, sélecteur de modè
 
 ### Table des matières
 
+- [Installation](#installation)
 - [Architecture](#architecture)
   - [Vue d'ensemble des composants](#vue-densemble-des-composants)
   - [Séquence de démarrage](#séquence-de-démarrage)
@@ -56,6 +57,24 @@ _L'application en fonctionnement natif : session connectée, sélecteur de modè
 - [Feuille de route](#feuille-de-route)
 - [Licence](#licence)
 - [Remerciements](#remerciements)
+
+---
+
+## Installation
+
+Récupérez la dernière version sur la **[page des Releases](https://github.com/TheoEwzZer/gemini-desktop/releases/latest)** — deux options :
+
+### Option 1 — Installeur (recommandé)
+
+Téléchargez **`GeminiDesktop-Setup.exe`** et lancez-le. L'assistant crée un raccourci dans le menu Démarrer (et une icône sur le bureau en option) et enregistre un désinstalleur propre dans *Ajouter ou supprimer des programmes*. Si le runtime WebView2 est absent, l'installeur télécharge le runtime officiel Microsoft et l'installe automatiquement (une connexion internet est nécessaire pour cette étape ; si elle n'est pas disponible, l'installeur renvoie vers le téléchargement manuel).
+
+### Option 2 — Portable
+
+Téléchargez **`GeminiDesktop.exe`** et double-cliquez — aucune installation, ~220 Ko. Nécessite le [runtime WebView2](https://developer.microsoft.com/microsoft-edge/webview2/) (déjà présent sur les Windows 10/11 à jour).
+
+> **Note SmartScreen :** les binaires ne sont pas encore signés, donc Windows peut afficher un avertissement *« Windows a protégé votre ordinateur »* au premier lancement. Cliquez sur **Informations complémentaires → Exécuter quand même**.
+
+Vous préférez compiler vous-même ? Voir [Compilation depuis les sources](#compilation-depuis-les-sources).
 
 ---
 

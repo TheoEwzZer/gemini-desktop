@@ -42,6 +42,7 @@ _The app running natively: signed-in session, model selector, and the Gemini spa
 
 ### Table of Contents
 
+- [Installation](#installation)
 - [Architecture](#architecture)
   - [Component Overview](#component-overview)
   - [Startup Flow](#startup-flow)
@@ -56,6 +57,24 @@ _The app running natively: signed-in session, model selector, and the Gemini spa
 - [Roadmap](#roadmap)
 - [License](#license)
 - [Acknowledgments](#acknowledgments)
+
+---
+
+## Installation
+
+Grab the latest build from the **[Releases page](https://github.com/TheoEwzZer/gemini-desktop/releases/latest)** — two options:
+
+### Option 1 — Installer (recommended)
+
+Download **`GeminiDesktop-Setup.exe`** and run it. The wizard creates a Start-menu shortcut (and an optional desktop icon) and registers a clean uninstaller in *Add or remove programs*. If the WebView2 runtime is missing, the installer downloads Microsoft's official runtime and installs it automatically (an internet connection is required for that step; if it is unavailable, the installer points you to the manual download).
+
+### Option 2 — Portable
+
+Download **`GeminiDesktop.exe`** and double-click it — no installation, ~220 KB. Requires the [WebView2 runtime](https://developer.microsoft.com/microsoft-edge/webview2/) (already present on up-to-date Windows 10/11).
+
+> **SmartScreen note:** the binaries are not code-signed yet, so Windows may show a *"Windows protected your PC"* prompt on first run. Click **More info → Run anyway**.
+
+Prefer to build it yourself? See [Building from Source](#building-from-source).
 
 ---
 
