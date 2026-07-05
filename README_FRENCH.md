@@ -260,7 +260,6 @@ Des idées volontairement hors périmètre pour l'instant, mais faciles à ajout
 
 - Raccourci global pour afficher/masquer la fenêtre depuis n'importe où
 - Option de lancement au démarrage de Windows (clé de registre `Run`)
-- Bootstrapper WebView2 embarqué pour une installation entièrement hors-ligne
 - Binaires signés pour supprimer l'avertissement SmartScreen
 
 ---
