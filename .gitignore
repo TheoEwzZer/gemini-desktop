@@ -1,0 +1,15 @@
+# Build
+build/
+out/
+*.user
+*.suo
+.vs/
+
+# vcpkg
+vcpkg_installed/
+
+# Binaires / intermediaires
+*.obj
+*.exe
+*.pdb
+*.ilk
