@@ -57,8 +57,11 @@ int APIENTRY wWinMain(HINSTANCE instance, HINSTANCE, LPWSTR, int show_command) {
     }
 
     // 3. Creer la fenetre + WebView2.
+    //    --startup (lancement au demarrage de Windows) => demarrer dans le tray.
+    const bool start_hidden = (wcsstr(GetCommandLineW(), L"--startup") != nullptr);
+
     App app;
-    if (!app.Create(instance, show_command)) {
+    if (!app.Create(instance, show_command, start_hidden)) {
         CoUninitialize();
         return 1;
     }

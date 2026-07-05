@@ -18,8 +18,9 @@ inline constexpr wchar_t kWebView2DownloadUrl[] =
 inline constexpr UINT WM_TRAY_CALLBACK = WM_APP + 1;
 
 // Identifiants du menu contextuel du tray.
-inline constexpr UINT ID_TRAY_SHOW = 1001;
-inline constexpr UINT ID_TRAY_QUIT = 1002;
+inline constexpr UINT ID_TRAY_SHOW    = 1001;
+inline constexpr UINT ID_TRAY_QUIT    = 1002;
+inline constexpr UINT ID_TRAY_STARTUP = 1003;
 
 // Identifiant de l'icone applicative (doit correspondre au .rc).
 inline constexpr int IDI_APPICON = 101;

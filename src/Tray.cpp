@@ -3,6 +3,7 @@
 #include <shellapi.h>
 
 #include "Constants.hpp"
+#include "Startup.hpp"
 
 namespace gemini {
 
@@ -76,19 +77,27 @@ bool Tray::HandleMessage(WPARAM /*wparam*/, LPARAM lparam, UINT* command) {
         // Menu contextuel : Afficher / Quitter.
         HMENU menu = CreatePopupMenu();
         AppendMenuW(menu, MF_STRING, ID_TRAY_SHOW, L"Afficher");
+        AppendMenuW(menu,
+                    MF_STRING | (IsStartupEnabled() ? MF_CHECKED : MF_UNCHECKED),
+                    ID_TRAY_STARTUP, L"Demarrer avec Windows");
         AppendMenuW(menu, MF_SEPARATOR, 0, nullptr);
         AppendMenuW(menu, MF_STRING, ID_TRAY_QUIT, L"Quitter");
 
         POINT pt;
         GetCursorPos(&pt);
-        // Requis pour que le menu se ferme correctement au clic exterieur.
+        // Correctif Microsoft pour les menus de tray : la fenetre doit etre au
+        // premier plan avant TrackPopupMenu, et un WM_NULL doit etre poste juste
+        // apres, sinon (fenetre masquee dans le tray) le clic sur un item est
+        // ignore et la commande n'est jamais renvoyee.
         SetForegroundWindow(hwnd_);
         const UINT chosen = TrackPopupMenu(
             menu, TPM_RIGHTBUTTON | TPM_RETURNCMD | TPM_NONOTIFY,
             pt.x, pt.y, 0, hwnd_, nullptr);
+        PostMessageW(hwnd_, WM_NULL, 0, 0);
         DestroyMenu(menu);
 
-        if (chosen == ID_TRAY_SHOW || chosen == ID_TRAY_QUIT) {
+        if (chosen == ID_TRAY_SHOW || chosen == ID_TRAY_QUIT ||
+            chosen == ID_TRAY_STARTUP) {
             *command = chosen;
             return true;
         }

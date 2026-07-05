@@ -16,8 +16,10 @@ namespace gemini {
 class App {
 public:
     // Cree la fenetre et lance l'initialisation asynchrone de WebView2.
+    // Si start_hidden est true (lancement au demarrage), l'app demarre reduite
+    // dans le tray au lieu d'afficher la fenetre.
     // Retourne false en cas d'echec de creation de la fenetre.
-    bool Create(HINSTANCE instance, int show_command);
+    bool Create(HINSTANCE instance, int show_command, bool start_hidden);
 
     HWND Hwnd() const { return hwnd_; }
 

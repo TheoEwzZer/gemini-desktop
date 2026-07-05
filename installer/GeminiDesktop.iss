@@ -35,19 +35,36 @@ WizardStyle=modern
 ; Application 64 bits uniquement.
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
-; Pas besoin de droits admin si installation par utilisateur ; on demande
-; admin pour installer dans Program Files et le runtime WebView2 si besoin.
-PrivilegesRequiredOverridesAllowed=dialog
+; Installation per-user (sans elevation UAC) : coherent avec une app legere
+; dont les donnees vivent dans %LOCALAPPDATA%, et evite que la valeur Run de
+; "demarrage avec Windows" (HKCU) atterrisse dans le mauvais profil.
+PrivilegesRequired=lowest
 
 [Languages]
 Name: "french"; MessagesFile: "compiler:Languages\French.isl"
 Name: "english"; MessagesFile: "compiler:Default.isl"
 
+[CustomMessages]
+french.StartupTask=Lancer Gemini au demarrage de Windows
+english.StartupTask=Launch Gemini at Windows startup
+french.OptionsGroup=Options :
+english.OptionsGroup=Options:
+
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "startup"; Description: "{cm:StartupTask}"; GroupDescription: "{cm:OptionsGroup}"; Flags: unchecked
 
 [Files]
 Source: "..\build\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+
+[Registry]
+; Lancement au demarrage : meme valeur que le toggle du tray de l'app
+; (le flag --startup fait demarrer l'app reduite dans le tray).
+; uninsdeletevalue : la valeur est supprimee a la desinstallation.
+Root: HKCU; Subkey: "Software\Microsoft\Windows\CurrentVersion\Run"; \
+    ValueType: string; ValueName: "GeminiDesktop"; \
+    ValueData: """{app}\{#MyAppExeName}"" --startup"; \
+    Flags: uninsdeletevalue; Tasks: startup
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

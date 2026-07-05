@@ -8,6 +8,7 @@
 #include "Constants.hpp"
 #include "Paths.hpp"
 #include "SingleInstance.hpp"
+#include "Startup.hpp"
 
 using Microsoft::WRL::Callback;
 
@@ -39,7 +40,7 @@ constexpr wchar_t kTrayNoticeFlag[] = L"TrayNoticeShown";
 
 } // namespace
 
-bool App::Create(HINSTANCE instance, int show_command) {
+bool App::Create(HINSTANCE instance, int show_command, bool start_hidden) {
     instance_ = instance;
     icon_ = LoadIconW(instance, MAKEINTRESOURCEW(IDI_APPICON));
     if (!icon_) {
@@ -71,8 +72,14 @@ bool App::Create(HINSTANCE instance, int show_command) {
     // L'icone du tray reste presente pendant toute la vie de l'app.
     tray_.Add(hwnd_, icon_);
 
-    ShowWindow(hwnd_, show_command);
-    UpdateWindow(hwnd_);
+    if (start_hidden) {
+        // Lancement au demarrage de Windows : on reste dans le tray, sans
+        // afficher la fenetre ni la balloon de notice.
+        tray_notice_shown_ = true;
+    } else {
+        ShowWindow(hwnd_, show_command);
+        UpdateWindow(hwnd_);
+    }
 
     InitializeWebView();
     return true;
@@ -122,6 +129,9 @@ LRESULT App::WndProc(UINT msg, WPARAM wparam, LPARAM lparam) {
         if (tray_.HandleMessage(wparam, lparam, &command)) {
             if (command == ID_TRAY_SHOW) {
                 ToggleVisibility();
+            } else if (command == ID_TRAY_STARTUP) {
+                // Bascule le lancement au demarrage de Windows.
+                SetStartupEnabled(!IsStartupEnabled());
             } else if (command == ID_TRAY_QUIT) {
                 DestroyWindow(hwnd_);
             }

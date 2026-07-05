@@ -17,6 +17,7 @@ add_executable(GeminiDesktop WIN32
     src/SingleInstance.cpp
     src/Tray.cpp
     src/Paths.cpp
+    src/Startup.cpp
     res/app.rc
 )
 

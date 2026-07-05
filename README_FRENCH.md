@@ -40,6 +40,7 @@ _L'application en fonctionnement natif : session connectée, sélecteur de modè
 - **Sessions persistantes** — connexion et cookies conservés entre les lancements grâce à un dossier de données WebView2 dédié.
 - **Instance unique** — un second lancement réactive la fenêtre existante au lieu d'ouvrir un doublon.
 - **Barre système** — la fermeture réduit dans le tray ; un menu contextuel propose *Afficher* / *Quitter*, avec une notice au premier passage.
+- **Démarrage avec Windows** — optionnel, activable directement depuis le menu du tray ; démarre réduit dans le tray à l'ouverture de session.
 - **Détection du runtime** — si le runtime WebView2 est absent, l'application l'explique et redirige vers la page de téléchargement Microsoft.
 - **Builds reproductibles** — CMake + manifeste vcpkg, un seul `build.bat`.
 
@@ -246,6 +247,13 @@ Fermer la fenêtre la réduit dans la barre système au lieu de quitter. L'icôn
 </details>
 
 <details>
+<summary><strong>Démarrage avec Windows</strong></summary>
+
+Le menu contextuel du tray propose une entrée cochable **Démarrer avec Windows**. La basculer écrit (ou supprime) une valeur per-user sous `HKCU\Software\Microsoft\Windows\CurrentVersion\Run` — sans droits administrateur. La commande enregistrée porte un flag `--startup` pour qu'à l'ouverture de session l'app démarre silencieusement, réduite dans le tray, au lieu d'ouvrir une fenêtre.
+
+</details>
+
+<details>
 <summary><strong>Détection du runtime</strong></summary>
 
 Au démarrage, l'application appelle `GetAvailableCoreWebView2BrowserVersionString`. Si le runtime WebView2 est absent, elle affiche un message clair et propose d'ouvrir la page de téléchargement officielle Microsoft plutôt que de planter.
@@ -259,7 +267,6 @@ Au démarrage, l'application appelle `GetAvailableCoreWebView2BrowserVersionStri
 Des idées volontairement hors périmètre pour l'instant, mais faciles à ajouter :
 
 - Raccourci global pour afficher/masquer la fenêtre depuis n'importe où
-- Option de lancement au démarrage de Windows (clé de registre `Run`)
 - Binaires signés pour supprimer l'avertissement SmartScreen
 
 ---

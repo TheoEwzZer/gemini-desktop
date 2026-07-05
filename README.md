@@ -40,6 +40,7 @@ _The app running natively: signed-in session, model selector, and the Gemini spa
 - **Persistent sessions** — login and cookies survive restarts via a dedicated WebView2 user-data folder.
 - **Single instance** — launching a second time re-focuses the running window instead of opening a duplicate.
 - **System tray** — closing hides to the tray; a context menu offers *Show* / *Quit*, with a first-run notice.
+- **Launch at startup** — optional, toggled right from the tray menu; starts minimized to the tray on login.
 - **Runtime awareness** — if the WebView2 runtime is missing, the app explains and links to the Microsoft download page.
 - **Reproducible builds** — CMake + vcpkg manifest, one-command `build.bat`.
 
@@ -246,6 +247,13 @@ Closing the window hides it to the system tray rather than quitting. The tray ic
 </details>
 
 <details>
+<summary><strong>Launch at startup</strong></summary>
+
+The tray context menu has a checkable **Launch at startup** entry. Toggling it writes (or removes) a per-user value under `HKCU\Software\Microsoft\Windows\CurrentVersion\Run` — no administrator rights needed. The registered command carries a `--startup` flag so that, at login, the app starts silently minimized in the tray instead of popping a window.
+
+</details>
+
+<details>
 <summary><strong>Runtime detection</strong></summary>
 
 On startup the app calls `GetAvailableCoreWebView2BrowserVersionString`. If the WebView2 runtime is missing, it shows a clear message and offers to open the official Microsoft download page instead of crashing.
@@ -259,7 +267,6 @@ On startup the app calls `GetAvailableCoreWebView2BrowserVersionString`. If the 
 Ideas that are intentionally out of scope for now but easy to add:
 
 - Global hotkey to show/hide the window from anywhere
-- Launch-at-startup option (registry `Run` key)
 - Code-signed binaries to remove the SmartScreen warning
 
 ---
