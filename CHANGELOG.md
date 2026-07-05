@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/TheoEwzZer/gemini-desktop/compare/v1.0.0...v1.1.0) (2026-07-05)
+
+
+### Features
+
+* add launch-at-startup option ([4d1d204](https://github.com/TheoEwzZer/gemini-desktop/commit/4d1d204460501d0b1c2e9f72207e8f5379aba44c))
+
 ## 1.0.0 (2026-07-05)
 
 
