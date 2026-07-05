@@ -261,7 +261,7 @@ Ideas that are intentionally out of scope for now but easy to add:
 - Global hotkey to show/hide the window from anywhere
 - Launch-at-startup option (registry `Run` key)
 - Bundled WebView2 bootstrapper for fully offline installs
-- MSI / NSIS installer via CPack
+- Code-signed binaries to remove the SmartScreen warning
 
 ---
 
