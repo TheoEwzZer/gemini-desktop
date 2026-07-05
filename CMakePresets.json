@@ -8,25 +8,23 @@
   "configurePresets": [
     {
       "name": "x64-release",
-      "displayName": "x64 Release (Visual Studio + vcpkg)",
-      "generator": "Visual Studio 17 2022",
+      "displayName": "x64 Release (MSVC + Ninja + vcpkg)",
+      "generator": "Ninja",
       "binaryDir": "${sourceDir}/build",
-      "architecture": {
-        "value": "x64",
-        "strategy": "set"
-      },
       "toolchainFile": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
       "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_C_COMPILER": "cl",
+        "CMAKE_CXX_COMPILER": "cl",
         "VCPKG_TARGET_TRIPLET": "x64-windows-static",
-        "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreaded$<$<CONFIG:Debug>:Debug>"
+        "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreaded"
       }
     }
   ],
   "buildPresets": [
     {
       "name": "x64-release",
-      "configurePreset": "x64-release",
-      "configuration": "Release"
+      "configurePreset": "x64-release"
     }
   ]
 }

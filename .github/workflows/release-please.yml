@@ -44,6 +44,15 @@ jobs:
       - name: Set VCPKG_ROOT
         run: echo "VCPKG_ROOT=$env:GITHUB_WORKSPACE\vcpkg" >> $env:GITHUB_ENV
 
+      # Charge l'environnement MSVC (cl) - independant de la version de VS.
+      - name: Set up MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
+      - name: Set up Ninja
+        uses: seanmiddleditch/gha-setup-ninja@v6
+
       - name: Version from tag
         shell: pwsh
         run: |
@@ -72,6 +81,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release upload "${{ needs.release-please.outputs.tag_name }}" `
-            build\Release\GeminiDesktop.exe `
+            build\GeminiDesktop.exe `
             installer\Output\GeminiDesktop-Setup.exe `
             --clobber
