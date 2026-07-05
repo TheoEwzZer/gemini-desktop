@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/TheoEwzZer/gemini-desktop/compare/v1.1.0...v1.2.0) (2026-07-05)
+
+
+### Features
+
+* add global hotkey to toggle window visibility ([0bbe6f1](https://github.com/TheoEwzZer/gemini-desktop/commit/0bbe6f13c3d0213e7b3a4d6839e0fb7a03e70239))
+
 ## [1.1.0](https://github.com/TheoEwzZer/gemini-desktop/compare/v1.0.0...v1.1.0) (2026-07-05)
 
 
