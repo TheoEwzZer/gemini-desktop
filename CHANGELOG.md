@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.0](https://github.com/TheoEwzZer/gemini-desktop/compare/v1.2.0...v1.3.0) (2026-07-05)
+
+
+### Features
+
+* add AppUserModelID for stable window grouping and include missing header ([50bd711](https://github.com/TheoEwzZer/gemini-desktop/commit/50bd71113d3f80d99320fd66b5b7089870ed55f5))
+
+
+### Bug Fixes
+
+* add AppUserModelID for desktop integration and startup tasks ([de98a5d](https://github.com/TheoEwzZer/gemini-desktop/commit/de98a5d2904521ef6d248cf577b800dcbc857689))
+
 ## [1.2.0](https://github.com/TheoEwzZer/gemini-desktop/compare/v1.1.0...v1.2.0) (2026-07-05)
 
 
