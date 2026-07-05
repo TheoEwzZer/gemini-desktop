@@ -15,7 +15,7 @@
 
 **[:fr: Version française disponible ici](README_FRENCH.md)**
 
-_A minimal Win32 host that wraps `gemini.google.com` in a native window through the Microsoft Edge WebView2 runtime — a single ~220 KB executable with no bundled browser, persistent sessions, and system-tray integration._
+_A minimal Win32 host that wraps `gemini.google.com` in a native window through the Microsoft Edge WebView2 runtime — a single ~270 KB executable with no bundled browser, persistent sessions, and system-tray integration._
 
 </div>
 
@@ -31,15 +31,15 @@ _The app running natively: signed-in session, model selector, and the Gemini spa
 
 ## Abstract
 
-> Google Gemini ships no official desktop application for Windows. **Gemini Desktop** fills that gap with the lightest possible approach: instead of embedding an entire Chromium runtime (as Electron does) or layering a cross-platform framework on top of the system webview (as Tauri does), it is a pure **C++/Win32** host that drives the **WebView2** runtime already present on every up-to-date Windows 10/11 machine. The result is a genuinely app-like experience — persistent login, resizable HiDPI window, single-instance behavior, and minimize-to-tray — in a self-contained executable of roughly 220 KB with zero external DLLs.
+> Google Gemini ships no official desktop application for Windows. **Gemini Desktop** fills that gap with the lightest possible approach: instead of embedding an entire Chromium runtime (as Electron does) or layering a cross-platform framework on top of the system webview (as Tauri does), it is a pure **C++/Win32** host that drives the **WebView2** runtime already present on every up-to-date Windows 10/11 machine. The result is a genuinely app-like experience — persistent login, resizable HiDPI window, single-instance behavior, and minimize-to-tray — in a self-contained executable of roughly 270 KB with zero external DLLs.
 
 ### Key Features
 
-- **Tiny footprint** — a single ~220 KB `.exe`, no bundled browser, no companion DLL (static WebView2 loader + static CRT).
+- **Tiny footprint** — a single ~270 KB `.exe`, no bundled browser, no companion DLL (static WebView2 loader + static CRT).
 - **Native window** — real Win32 window: resizable, DPI-aware (PerMonitorV2), custom Gemini icon.
 - **Persistent sessions** — login and cookies survive restarts via a dedicated WebView2 user-data folder.
 - **Single instance** — launching a second time re-focuses the running window instead of opening a duplicate.
-- **System tray** — closing hides to the tray; a context menu offers *Show* / *Quit*, with a first-run notice.
+- **System tray** — closing hides to the tray; a context menu offers _Show_ / _Quit_, with a first-run notice.
 - **Launch at startup** — optional, toggled right from the tray menu; starts minimized to the tray on login.
 - **Runtime awareness** — if the WebView2 runtime is missing, the app explains and links to the Microsoft download page.
 - **Reproducible builds** — CMake + vcpkg manifest, one-command `build.bat`.
@@ -70,13 +70,13 @@ Grab the latest build from the **[Releases page](https://github.com/TheoEwzZer/g
 
 ### Option 1 — Installer (recommended)
 
-Download **`GeminiDesktop-Setup.exe`** and run it. The wizard creates a Start-menu shortcut (and an optional desktop icon) and registers a clean uninstaller in *Add or remove programs*. If the WebView2 runtime is missing, the installer downloads Microsoft's official runtime and installs it automatically (an internet connection is required for that step; if it is unavailable, the installer points you to the manual download).
+Download **`GeminiDesktop-Setup.exe`** and run it. The wizard creates a Start-menu shortcut (and an optional desktop icon) and registers a clean uninstaller in _Add or remove programs_. If the WebView2 runtime is missing, the installer downloads Microsoft's official runtime and installs it automatically (an internet connection is required for that step; if it is unavailable, the installer points you to the manual download).
 
 ### Option 2 — Portable
 
-Download **`GeminiDesktop.exe`** and double-click it — no installation, ~220 KB. Requires the [WebView2 runtime](https://developer.microsoft.com/microsoft-edge/webview2/) (already present on up-to-date Windows 10/11).
+Download **`GeminiDesktop.exe`** and double-click it — no installation, ~270 KB. Requires the [WebView2 runtime](https://developer.microsoft.com/microsoft-edge/webview2/) (already present on up-to-date Windows 10/11).
 
-> **SmartScreen note:** the binaries are not code-signed yet, so Windows may show a *"Windows protected your PC"* prompt on first run. Click **More info → Run anyway**.
+> **SmartScreen note:** the binaries are not code-signed yet, so Windows may show a _"Windows protected your PC"_ prompt on first run. Click **More info → Run anyway**.
 
 Prefer to build it yourself? See [Building from Source](#building-from-source).
 
@@ -130,16 +130,16 @@ graph TD
 
 ## Why WebView2?
 
-The project deliberately chose the lightest viable technology. WebView2 and Tauri share the *same* rendering engine on Windows (the Edge/Chromium runtime); the difference is everything wrapped around it.
+The project deliberately chose the lightest viable technology. WebView2 and Tauri share the _same_ rendering engine on Windows (the Edge/Chromium runtime); the difference is everything wrapped around it.
 
-| Criterion            | Electron            | Tauri                          | **Gemini Desktop (WebView2 + Win32)** |
-| -------------------- | ------------------- | ------------------------------ | ------------------------------------- |
-| Rendering engine     | Bundled Chromium    | System WebView2                | System WebView2                       |
-| Installer size       | ~85–150 MB          | ~3–10 MB                       | **~220 KB**                           |
-| Idle memory          | High                | Low                            | **Lowest**                            |
-| Extra runtime layer  | Node.js             | Rust + cross-platform abstraction | **None** (raw Win32)               |
-| External DLLs        | Many                | Few                            | **None**                              |
-| Platform             | Cross-platform      | Cross-platform                 | Windows-only (by design)              |
+| Criterion           | Electron         | Tauri                             | **Gemini Desktop (WebView2 + Win32)** |
+| ------------------- | ---------------- | --------------------------------- | ------------------------------------- |
+| Rendering engine    | Bundled Chromium | System WebView2                   | System WebView2                       |
+| Installer size      | ~85–150 MB       | ~3–10 MB                          | **~270 KB**                           |
+| Idle memory         | High             | Low                               | **Lowest**                            |
+| Extra runtime layer | Node.js          | Rust + cross-platform abstraction | **None** (raw Win32)                  |
+| External DLLs       | Many             | Few                               | **None**                              |
+| Platform            | Cross-platform   | Cross-platform                    | Windows-only (by design)              |
 
 Because the target is explicitly **Windows-only**, the cross-platform machinery of Electron and Tauri is dead weight — a raw Win32 host removes it entirely.
 
@@ -175,7 +175,7 @@ gemini-desktop/
 ### Prerequisites
 
 - **Windows 10 / 11 (x64)**
-- **Visual Studio 2022** or **Build Tools 2022** with the *Desktop development with C++* workload
+- **Visual Studio 2022** or **Build Tools 2022** with the _Desktop development with C++_ workload
 - **CMake 3.21+**
 - **[vcpkg](https://github.com/microsoft/vcpkg)** (clone + `bootstrap-vcpkg.bat`)
 - **WebView2 Runtime** — preinstalled on up-to-date Windows 10/11
@@ -212,12 +212,12 @@ Pin it to the taskbar or Start menu for quick access.
 
 Common tweaks live in [`src/Constants.hpp`](src/Constants.hpp):
 
-| Constant             | Purpose                                             |
-| -------------------- | --------------------------------------------------- |
-| `kHomeUrl`           | The URL loaded on startup (`https://gemini.google.com`) |
-| `kWindowTitle`       | Window and tray title                               |
-| `kMutexName`         | Single-instance mutex name                          |
-| `kRegistryKey`       | `HKCU` key used to remember the first-run tray notice |
+| Constant       | Purpose                                                 |
+| -------------- | ------------------------------------------------------- |
+| `kHomeUrl`     | The URL loaded on startup (`https://gemini.google.com`) |
+| `kWindowTitle` | Window and tray title                                   |
+| `kMutexName`   | Single-instance mutex name                              |
+| `kRegistryKey` | `HKCU` key used to remember the first-run tray notice   |
 
 Window default size lives in `App::Create` (`CreateWindowExW`), and the persistent storage location is built in [`src/Paths.cpp`](src/Paths.cpp).
 
@@ -242,7 +242,7 @@ A named mutex detects an already-running instance. The second process calls `All
 <details>
 <summary><strong>Minimize to tray</strong></summary>
 
-Closing the window hides it to the system tray rather than quitting. The tray icon offers a *Show* / *Quit* context menu; a left click toggles visibility. The first time the window hides, a balloon tip explains where it went (remembered via a registry flag so it only shows once).
+Closing the window hides it to the system tray rather than quitting. The tray icon offers a _Show_ / _Quit_ context menu; a left click toggles visibility. The first time the window hides, a balloon tip explains where it went (remembered via a registry flag so it only shows once).
 
 </details>
 

@@ -15,7 +15,7 @@
 
 **[:gb: English version available here](README.md)**
 
-_Un hôte Win32 minimal qui encapsule `gemini.google.com` dans une fenêtre native via le runtime Microsoft Edge WebView2 — un exécutable unique d'environ 220 Ko, sans navigateur embarqué, avec sessions persistantes et intégration à la barre système._
+_Un hôte Win32 minimal qui encapsule `gemini.google.com` dans une fenêtre native via le runtime Microsoft Edge WebView2 — un exécutable unique d'environ 270 Ko, sans navigateur embarqué, avec sessions persistantes et intégration à la barre système._
 
 </div>
 
@@ -31,15 +31,15 @@ _L'application en fonctionnement natif : session connectée, sélecteur de modè
 
 ## Résumé
 
-> Google Gemini ne propose aucune application de bureau officielle sous Windows. **Gemini Desktop** comble ce manque avec l'approche la plus légère possible : au lieu d'embarquer un runtime Chromium complet (comme Electron) ou d'empiler un framework multiplateforme au-dessus de la webview système (comme Tauri), c'est un hôte **C++/Win32** pur qui pilote le runtime **WebView2** déjà présent sur toute machine Windows 10/11 à jour. Le résultat est une véritable expérience « app » — connexion persistante, fenêtre redimensionnable et compatible HiDPI, instance unique, réduction dans la barre système — dans un exécutable autonome d'environ 220 Ko, sans aucune DLL externe.
+> Google Gemini ne propose aucune application de bureau officielle sous Windows. **Gemini Desktop** comble ce manque avec l'approche la plus légère possible : au lieu d'embarquer un runtime Chromium complet (comme Electron) ou d'empiler un framework multiplateforme au-dessus de la webview système (comme Tauri), c'est un hôte **C++/Win32** pur qui pilote le runtime **WebView2** déjà présent sur toute machine Windows 10/11 à jour. Le résultat est une véritable expérience « app » — connexion persistante, fenêtre redimensionnable et compatible HiDPI, instance unique, réduction dans la barre système — dans un exécutable autonome d'environ 270 Ko, sans aucune DLL externe.
 
 ### Fonctionnalités clés
 
-- **Empreinte minuscule** — un seul `.exe` d'environ 220 Ko, sans navigateur embarqué ni DLL annexe (loader WebView2 statique + CRT statique).
+- **Empreinte minuscule** — un seul `.exe` d'environ 270 Ko, sans navigateur embarqué ni DLL annexe (loader WebView2 statique + CRT statique).
 - **Fenêtre native** — vraie fenêtre Win32 : redimensionnable, compatible DPI (PerMonitorV2), icône Gemini personnalisée.
 - **Sessions persistantes** — connexion et cookies conservés entre les lancements grâce à un dossier de données WebView2 dédié.
 - **Instance unique** — un second lancement réactive la fenêtre existante au lieu d'ouvrir un doublon.
-- **Barre système** — la fermeture réduit dans le tray ; un menu contextuel propose *Afficher* / *Quitter*, avec une notice au premier passage.
+- **Barre système** — la fermeture réduit dans le tray ; un menu contextuel propose _Afficher_ / _Quitter_, avec une notice au premier passage.
 - **Démarrage avec Windows** — optionnel, activable directement depuis le menu du tray ; démarre réduit dans le tray à l'ouverture de session.
 - **Détection du runtime** — si le runtime WebView2 est absent, l'application l'explique et redirige vers la page de téléchargement Microsoft.
 - **Builds reproductibles** — CMake + manifeste vcpkg, un seul `build.bat`.
@@ -70,13 +70,13 @@ Récupérez la dernière version sur la **[page des Releases](https://github.com
 
 ### Option 1 — Installeur (recommandé)
 
-Téléchargez **`GeminiDesktop-Setup.exe`** et lancez-le. L'assistant crée un raccourci dans le menu Démarrer (et une icône sur le bureau en option) et enregistre un désinstalleur propre dans *Ajouter ou supprimer des programmes*. Si le runtime WebView2 est absent, l'installeur télécharge le runtime officiel Microsoft et l'installe automatiquement (une connexion internet est nécessaire pour cette étape ; si elle n'est pas disponible, l'installeur renvoie vers le téléchargement manuel).
+Téléchargez **`GeminiDesktop-Setup.exe`** et lancez-le. L'assistant crée un raccourci dans le menu Démarrer (et une icône sur le bureau en option) et enregistre un désinstalleur propre dans _Ajouter ou supprimer des programmes_. Si le runtime WebView2 est absent, l'installeur télécharge le runtime officiel Microsoft et l'installe automatiquement (une connexion internet est nécessaire pour cette étape ; si elle n'est pas disponible, l'installeur renvoie vers le téléchargement manuel).
 
 ### Option 2 — Portable
 
-Téléchargez **`GeminiDesktop.exe`** et double-cliquez — aucune installation, ~220 Ko. Nécessite le [runtime WebView2](https://developer.microsoft.com/microsoft-edge/webview2/) (déjà présent sur les Windows 10/11 à jour).
+Téléchargez **`GeminiDesktop.exe`** et double-cliquez — aucune installation, ~270 Ko. Nécessite le [runtime WebView2](https://developer.microsoft.com/microsoft-edge/webview2/) (déjà présent sur les Windows 10/11 à jour).
 
-> **Note SmartScreen :** les binaires ne sont pas encore signés, donc Windows peut afficher un avertissement *« Windows a protégé votre ordinateur »* au premier lancement. Cliquez sur **Informations complémentaires → Exécuter quand même**.
+> **Note SmartScreen :** les binaires ne sont pas encore signés, donc Windows peut afficher un avertissement _« Windows a protégé votre ordinateur »_ au premier lancement. Cliquez sur **Informations complémentaires → Exécuter quand même**.
 
 Vous préférez compiler vous-même ? Voir [Compilation depuis les sources](#compilation-depuis-les-sources).
 
@@ -130,16 +130,16 @@ graph TD
 
 ## Pourquoi WebView2 ?
 
-Le projet a délibérément choisi la technologie la plus légère viable. WebView2 et Tauri partagent le *même* moteur de rendu sous Windows (le runtime Edge/Chromium) ; la différence, c'est tout ce qui l'entoure.
+Le projet a délibérément choisi la technologie la plus légère viable. WebView2 et Tauri partagent le _même_ moteur de rendu sous Windows (le runtime Edge/Chromium) ; la différence, c'est tout ce qui l'entoure.
 
-| Critère                  | Electron            | Tauri                             | **Gemini Desktop (WebView2 + Win32)** |
-| ------------------------ | ------------------- | --------------------------------- | ------------------------------------- |
-| Moteur de rendu          | Chromium embarqué   | WebView2 système                  | WebView2 système                      |
-| Taille de l'installeur   | ~85–150 Mo          | ~3–10 Mo                          | **~220 Ko**                           |
-| Mémoire au repos         | Élevée              | Faible                            | **La plus faible**                    |
-| Couche runtime en plus   | Node.js             | Rust + abstraction multiplateforme | **Aucune** (Win32 pur)               |
-| DLL externes             | Nombreuses          | Quelques-unes                     | **Aucune**                            |
-| Plateforme               | Multiplateforme     | Multiplateforme                   | Windows uniquement (par choix)        |
+| Critère                | Electron          | Tauri                              | **Gemini Desktop (WebView2 + Win32)** |
+| ---------------------- | ----------------- | ---------------------------------- | ------------------------------------- |
+| Moteur de rendu        | Chromium embarqué | WebView2 système                   | WebView2 système                      |
+| Taille de l'installeur | ~85–150 Mo        | ~3–10 Mo                           | **~270 Ko**                           |
+| Mémoire au repos       | Élevée            | Faible                             | **La plus faible**                    |
+| Couche runtime en plus | Node.js           | Rust + abstraction multiplateforme | **Aucune** (Win32 pur)                |
+| DLL externes           | Nombreuses        | Quelques-unes                      | **Aucune**                            |
+| Plateforme             | Multiplateforme   | Multiplateforme                    | Windows uniquement (par choix)        |
 
 Comme la cible est explicitement **Windows uniquement**, la mécanique multiplateforme d'Electron et de Tauri devient du poids mort — un hôte Win32 pur la supprime entièrement.
 
@@ -175,7 +175,7 @@ gemini-desktop/
 ### Prérequis
 
 - **Windows 10 / 11 (x64)**
-- **Visual Studio 2022** ou **Build Tools 2022** avec le workload *Développement Desktop en C++*
+- **Visual Studio 2022** ou **Build Tools 2022** avec le workload _Développement Desktop en C++_
 - **CMake 3.21+**
 - **[vcpkg](https://github.com/microsoft/vcpkg)** (clone + `bootstrap-vcpkg.bat`)
 - **Runtime WebView2** — préinstallé sur les Windows 10/11 à jour
@@ -212,12 +212,12 @@ build\Release\GeminiDesktop.exe
 
 Les réglages courants se trouvent dans [`src/Constants.hpp`](src/Constants.hpp) :
 
-| Constante            | Rôle                                                |
-| -------------------- | --------------------------------------------------- |
-| `kHomeUrl`           | L'URL chargée au démarrage (`https://gemini.google.com`) |
-| `kWindowTitle`       | Titre de la fenêtre et du tray                      |
-| `kMutexName`         | Nom du mutex d'instance unique                      |
-| `kRegistryKey`       | Clé `HKCU` retenant la notice tray du premier lancement |
+| Constante      | Rôle                                                     |
+| -------------- | -------------------------------------------------------- |
+| `kHomeUrl`     | L'URL chargée au démarrage (`https://gemini.google.com`) |
+| `kWindowTitle` | Titre de la fenêtre et du tray                           |
+| `kMutexName`   | Nom du mutex d'instance unique                           |
+| `kRegistryKey` | Clé `HKCU` retenant la notice tray du premier lancement  |
 
 La taille par défaut de la fenêtre est dans `App::Create` (`CreateWindowExW`), et l'emplacement du stockage persistant est construit dans [`src/Paths.cpp`](src/Paths.cpp).
 
@@ -242,7 +242,7 @@ Un mutex nommé détecte une instance déjà active. Le second processus appelle
 <details>
 <summary><strong>Réduction dans le tray</strong></summary>
 
-Fermer la fenêtre la réduit dans la barre système au lieu de quitter. L'icône du tray propose un menu *Afficher* / *Quitter* ; un clic gauche bascule la visibilité. Au tout premier masquage, une balloon tip explique où est passée la fenêtre (mémorisé via un flag registre pour ne s'afficher qu'une fois).
+Fermer la fenêtre la réduit dans la barre système au lieu de quitter. L'icône du tray propose un menu _Afficher_ / _Quitter_ ; un clic gauche bascule la visibilité. Au tout premier masquage, une balloon tip explique où est passée la fenêtre (mémorisé via un flag registre pour ne s'afficher qu'une fois).
 
 </details>
 
