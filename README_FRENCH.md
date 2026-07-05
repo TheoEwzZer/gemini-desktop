@@ -4,11 +4,14 @@
 
 **Un client Windows natif ultra-léger pour Google Gemini**
 
+[![Derniere version](https://img.shields.io/github/v/release/TheoEwzZer/gemini-desktop?label=t%C3%A9l%C3%A9charger&logo=github&color=4285F4)](https://github.com/TheoEwzZer/gemini-desktop/releases/latest)
+[![Telechargements](https://img.shields.io/github/downloads/TheoEwzZer/gemini-desktop/total?logo=github)](https://github.com/TheoEwzZer/gemini-desktop/releases)
 [![C++17](https://img.shields.io/badge/C%2B%2B-17-00599C?logo=cplusplus&logoColor=white)](https://isocpp.org)
 [![Windows x64](https://img.shields.io/badge/Windows-x64-0078D6?logo=windows&logoColor=white)](https://www.microsoft.com/windows)
 [![WebView2](https://img.shields.io/badge/WebView2-Runtime-4285F4?logo=microsoftedge&logoColor=white)](https://developer.microsoft.com/microsoft-edge/webview2/)
-[![CMake](https://img.shields.io/badge/CMake-vcpkg-064F8C?logo=cmake&logoColor=white)](https://cmake.org)
 [![Licence : MIT](https://img.shields.io/badge/Licence-MIT-green.svg)](LICENSE)
+
+**[⬇️ Télécharger la dernière version](https://github.com/TheoEwzZer/gemini-desktop/releases/latest)**
 
 **[:gb: English version available here](README.md)**
 
